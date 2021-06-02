@@ -1,37 +1,107 @@
-import React, { Component } from "react";
-import FontPicker from "font-picker-react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import axios from "axios";
+import Button from "@material-ui/core/Button";
+import GoogleFontLoader from "react-google-font-loader";
+import { FontContext } from "./FontContext";
 
-export default class BodyComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeFontFamily: props.bodyFont,
-      categories: "",
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+export default function BodyPicker() {
+  const ref = useRef();
+  const classes = useStyles();
+  const [fonts, setFonts] = useState([]);
+  const { body } = useContext(FontContext);
+  const [bodyFont, setBodyFont] = body;
+
+  const [variants, setVariants] = useState([]);
+  const [variant, setVariant] = useState("regular");
+
+  useEffect(() => {
+    let arr = [];
+    const fetchData = async () => {
+      const result = await axios(
+        "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyCtrYe5NA6nnIxkKEO61XM2oS-USy-BMUQ&sort=popularity"
+      );
+      for (let x = 0; x < 50; x++) {
+        arr.push(result.data.items[x]);
+      }
+      setFonts(arr);
     };
-  }
 
-  
+    fetchData();
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <FontPicker
-          apiKey="AIzaSyCtrYe5NA6nnIxkKEO61XM2oS-USy-BMUQ"
-          pickerId="body"
-          activeFontFamily={this.state.activeFontFamily}
-          categories={this.state.categories}
-          onChange={(nextFont) =>
-            this.setState({
-              activeFontFamily: nextFont.family,
-            })
-          }
-        />
-        <button style={this.props.buttonStyle}>Random font?</button>
-        <button style={this.props.buttonStyle}>Lock this font?</button>
-        <p className="apply-font-body">
-          Your body will look like this in {this.state.activeFontFamily}.
-        </p>
-      </div>
+  const randomize = () => {
+    let num = Math.floor(Math.random() * fonts.length);
+    let randomFont = fonts[num];
+    setBodyFont(randomFont.family);
+    setVariants(randomFont.variants);
+  };
+
+  const handleChange = (event) => {
+    setTitleFont(event.target.value);
+    setVariants(
+      fonts.filter((font) => font.family === event.target.value)[0].variants
     );
-  }
+    setVariant("");
+  };
+  const handleVariant = (event) => {
+    setVariant(event.target.value);
+  };
+
+  return (
+    <div>
+      <GoogleFontLoader
+        fonts={[
+          {
+            font: `${titleFont}`,
+            weights: [`${variant}`]
+          },
+        ]}
+        subsets={["cyrillic-ext", "greek"]}
+      />
+      <FormControl className={classes.formControl}>
+        <InputLabel>Title Font</InputLabel>
+        <Select value={titleFont} onChange={handleChange}>
+          {fonts.map((font) => (
+            <MenuItem key={font.family} value={font.family}>
+              {font.family}
+            </MenuItem>
+          ))}
+        </Select>
+        <FormHelperText></FormHelperText>
+      </FormControl>
+      <FormControl className={classes.formControl}>
+        <InputLabel>Variants</InputLabel>
+        <Select value={variant} onChange={handleVariant}>
+          {variants.map((variant) => (
+            <MenuItem key={variant} value={variant}>
+              {variant}
+            </MenuItem>
+          ))}
+        </Select>
+        <FormHelperText></FormHelperText>
+      </FormControl>
+      <Button size="small" variant="contained" onClick={() => randomize()}>
+        Random Title Font?
+      </Button>
+      <h2 style={{ fontFamily: `${titleFont}` }}>
+        This will be your title in {titleFont}, {variant}!
+      </h2>
+    </div>
+  );
 }

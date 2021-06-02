@@ -5,7 +5,9 @@ import Button from "@material-ui/core/Button";
 export default function Suggestions() {
   const { title }= useContext(FontContext)
   const [titleFont, setTitleFont] = title;
-  
+  const { titleV } = useContext(FontContext);
+  const [variant, setVariant] = titleV;
+
   const suggestionsArr = [
     {
       title: "Oxygen",
@@ -36,7 +38,7 @@ export default function Suggestions() {
        <Button size="small" variant="contained" onClick={() => handleChange()}>
          Suggested Font Pairing?
       </Button></h4>
-      <p style={{fontFamily: `${titleFont}`}}>This is your title in {titleFont}</p>
+      <p style={{fontFamily: `${titleFont}`}}>This is your title in {titleFont}, {variant}</p>
       <p style={{fontfamily: 'Montserrat, sans-serif'}}>This is your title in Anton</p>
       </div>
   )

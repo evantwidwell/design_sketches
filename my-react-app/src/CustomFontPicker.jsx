@@ -26,9 +26,10 @@ export default function SimpleSelect() {
   const [fonts, setFonts] = useState([]);
   const { title } = useContext(FontContext);
   const [titleFont, setTitleFont] = title;
-
+  const { titleV } = useContext(FontContext);
+  const [variant, setVariant] = titleV;
   const [variants, setVariants] = useState([]);
-  const [variant, setVariant] = useState("");
+  
 
   useEffect(() => {
     let arr = [];
@@ -50,6 +51,9 @@ export default function SimpleSelect() {
     let randomFont = fonts[num];
     setTitleFont(randomFont.family);
     setVariants(randomFont.variants);
+    let vnum = Math.floor(Math.random() * randomFont.variants.length);
+    console.log(randomFont.variants)
+    setVariant(randomFont.variants[vnum])
   };
 
   const handleChange = (event) => {
@@ -57,12 +61,10 @@ export default function SimpleSelect() {
     setVariants(
       fonts.filter((font) => font.family === event.target.value)[0].variants
     );
-    console.log(typeof titleFont);
-    setVariant("");
+    setVariant("regular");
   };
   const handleVariant = (event) => {
     setVariant(event.target.value);
-    console.log(variant);
   };
 
   return (
@@ -71,7 +73,7 @@ export default function SimpleSelect() {
         fonts={[
           {
             font: `${titleFont}`,
-            weights: `${variant}`
+            weights: [`${variant}`]
           },
         ]}
         subsets={["cyrillic-ext", "greek"]}
@@ -102,7 +104,7 @@ export default function SimpleSelect() {
         Random Title Font?
       </Button>
       <h2 style={{ fontFamily: `${titleFont}` }}>
-        This will be your title in {titleFont}!
+        This will be your title in {titleFont}, {variant}!
       </h2>
     </div>
   );
