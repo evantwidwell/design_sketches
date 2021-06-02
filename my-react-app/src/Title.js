@@ -6,7 +6,7 @@ export default class TitleComponent extends Component {
     super(props);
     this.state = {
       activeFontFamily: this.props.titleFont,
-      categories: "serif",
+      categories: "",
     };
   }
   

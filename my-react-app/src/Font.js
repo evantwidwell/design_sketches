@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import TitleComponent from "./Title";
-import BodyComponent from "./Body";
-import SubTitleComponent from './Subtitle'
-import CustomFont from './CustomFontPicker.jsx'
-
+import React, { useState, useContext } from "react";
+import SimpleSelect from './CustomFontPicker.jsx'
+import { FontProvider} from './FontContext';
+import { FontContext } from './FontContext'
+import Suggestions from './Suggestions'
 
 function Font(){
-  
 
+  
   const bodyStyle = {
     disaply: "flex",
     marginLeft: "10px",
     marginTop: "5px",
+    
   };
   const buttonStyle = {
     margin: "3px",
@@ -24,52 +24,16 @@ function Font(){
     borderRadius: "5px",
   };
 
-  // const suggestions = [
-  //   {
-  //     title: "Josefin Sans",
-  //     subtitle: "Karma",
-  //     body: "Palanquin"
-  //   },
-  //   {
-  //     title: "Montserrat",
-  //     subtitle: "Lorn",
-  //     body: "Hind Madurai"
-  //   },
-  //   {
-  //     title: "Catamaran",
-  //     subtitle: "Taviraj",
-  //     body: "Enriqueta"
-  //   }
-  // ];
-  const [suggestions, setSuggestions] = useState(
-    [
-      {
-        title: "Josefin Sans",
-        subtitle: "Karma",
-        body: "Palanquin"
-      },
-      {
-        title: "Montserrat",
-        subtitle: "Lorn",
-        body: "Hind Madurai"
-      },
-      {
-        title: "Catamaran",
-        subtitle: "Taviraj",
-        body: "Enriqueta"
-      }
-    ]
-  )
-  const [count, setCount] = useState(Math.floor(Math.random() * suggestions.length));
-  
   return (
+    <FontProvider>
     <div style={bodyStyle}>
-      <h4> Would you like to 
-      <button onClick={() => setCount(Math.floor(Math.random() * suggestions.length))} style={buttonStyle}>Start with a suggested pairing?</button></h4>
-      <CustomFont />
-      <TitleComponent buttonStyle={buttonStyle} titleFont={suggestions[count].title}/>
-      <SubTitleComponent buttonStyle={buttonStyle} subtitleFont={suggestions[count].subtitle}/>
-      <BodyComponent buttonStyle={buttonStyle} bodyFont={suggestions[count].body}/>
+      <Suggestions></Suggestions>
+      {/* <h4> Would you like to 
+      <button onClick={() => handleChange()} style={buttonStyle}>Start with a suggested pairing?</button></h4> */}
+      <SimpleSelect />
+      {/* <TitleComponent buttonStyle={buttonStyle} titleSuggestion={suggestion.title}/> */}
+      {/* <SubTitleComponent buttonStyle={buttonStyle} subtitleFont={suggestion.subtitle}/>
+      <BodyComponent buttonStyle={buttonStyle} bodyFont={suggestion.body}/> */}
       <div style={cardStyle}>
         <h3 className="apply-font-main">
           This is your title, it is very exciting
@@ -89,6 +53,7 @@ function Font(){
       <button style={buttonStyle}>Like this pairing?</button>
       <button style={buttonStyle}>Hate this pairing?</button>
     </div>
+    </FontProvider>
   );
 }
 

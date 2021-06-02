@@ -1,13 +1,34 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import axios from "axios";
-import "./menuStyles.css";
-import { useDetectOutsideClick } from "./useDetectOutsideClick";
+import Button from "@material-ui/core/Button";
+import GoogleFontLoader from "react-google-font-loader";
+import { FontContext } from "./FontContext";
 
-export default function CustomFont() {
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+export default function SimpleSelect(props) {
+  const ref = useRef();
+  const classes = useStyles();
   const [fonts, setFonts] = useState([]);
-  const dropdownRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
-  const onClick = () => setIsActive(!isActive);
+  const { title } = useContext(FontContext);
+  const [titleFont, setTitleFont] = title;
+
+  const [variants, setVariants] = useState([]);
+  const [variant, setVariant] = useState("");
 
   useEffect(() => {
     let arr = [];
@@ -15,34 +36,68 @@ export default function CustomFont() {
       const result = await axios(
         "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyCtrYe5NA6nnIxkKEO61XM2oS-USy-BMUQ&sort=popularity"
       );
-        for(let x=0; x<50; x++){
-          arr.push(result.data.items[x])
-        }
+      for (let x = 0; x < 50; x++) {
+        arr.push(result.data.items[x]);
+      }
       setFonts(arr);
-      console.log(arr);
     };
 
     fetchData();
-    console.log(fonts);
   }, []);
 
+  
+
+  const randomize = () => {
+    let num = Math.floor(Math.random() * fonts.length);
+    let randomFont = fonts[num];
+    setTitleFont(randomFont.family);
+    setVariants(randomFont.variants);
+  };
+
+  const handleChange = (event) => {
+    setTitleFont(event.target.value);
+    setVariants(
+      fonts.filter((font) => font.family === event.target.value)[0].variants
+    );
+    console.log(typeof(titleFont));
+    setVariant("");
+  };
+  const handleVariant = (event) => {
+    setVariant(event.target.value);
+    console.log(variant);
+  };
+
   return (
-    <div className="container">
-      <div className="menu-container">
-        <button onClick={onClick} className="menu-trigger">
-          <span>List of Fonts</span>
-        </button>
-        <nav
-          ref={dropdownRef}
-          className={`menu ${isActive ? "active" : "inactive"}`}
-        >
-          <ul>
-            {fonts.map((font) => (
-              <li key={font.family}>{font.family}</li>
-            ))}
-          </ul>
-        </nav>
-      </div>
+    <div>
+      <FormControl className={classes.formControl}>
+        <InputLabel>Title Font</InputLabel>
+        <Select value={titleFont} onChange={handleChange}>
+          {fonts.map((font) => (
+            <MenuItem key={font.family} value={font.family}>
+              {font.family}
+            </MenuItem>
+          ))}
+        </Select>
+        <FormHelperText></FormHelperText>
+      </FormControl>
+      <FormControl className={classes.formControl}>
+        <InputLabel>Variants</InputLabel>
+        <Select value={variant} onChange={handleVariant}>
+          {variants.map((variant) => (
+            <MenuItem key={variant} value={variant}>
+              {variant}
+            </MenuItem>
+          ))}
+        </Select>
+        <FormHelperText></FormHelperText>
+      </FormControl>
+      <Button size="small" variant="contained" onClick={() => randomize()}>
+        Random Title Font?
+      </Button>
+      <p style={{ fontFamily: `${titleFont}` }}>
+        This will be your title in {titleFont}!
+      </p>
+      <p style={{ fontFamily: 'Roboto Mono, monospaced' }}>This will be in Roboto Mono!</p>
     </div>
   );
 }
