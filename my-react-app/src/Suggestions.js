@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { FontContext} from './FontContext';
 import Button from "@material-ui/core/Button";
-import GoogleFontLoader from "react-google-font-loader";
 
 export default function Suggestions() {
   const { title }= useContext(FontContext)
@@ -9,7 +8,7 @@ export default function Suggestions() {
   
   const suggestionsArr = [
     {
-      title: "Josefin Sans",
+      title: "Oxygen",
       subtitle: "Karma",
       body: "Palanquin"
     },
@@ -38,7 +37,7 @@ export default function Suggestions() {
          Suggested Font Pairing?
       </Button></h4>
       <p style={{fontFamily: `${titleFont}`}}>This is your title in {titleFont}</p>
-      <p style={{fontFamily: 'Anton'}}>This is your title in Anton</p>
+      <p style={{fontfamily: 'Montserrat, sans-serif'}}>This is your title in Anton</p>
       </div>
   )
 }

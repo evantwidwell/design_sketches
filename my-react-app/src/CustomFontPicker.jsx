@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleSelect(props) {
+export default function SimpleSelect() {
   const ref = useRef();
   const classes = useStyles();
   const [fonts, setFonts] = useState([]);
@@ -45,8 +45,6 @@ export default function SimpleSelect(props) {
     fetchData();
   }, []);
 
-  
-
   const randomize = () => {
     let num = Math.floor(Math.random() * fonts.length);
     let randomFont = fonts[num];
@@ -59,7 +57,7 @@ export default function SimpleSelect(props) {
     setVariants(
       fonts.filter((font) => font.family === event.target.value)[0].variants
     );
-    console.log(typeof(titleFont));
+    console.log(typeof titleFont);
     setVariant("");
   };
   const handleVariant = (event) => {
@@ -69,6 +67,15 @@ export default function SimpleSelect(props) {
 
   return (
     <div>
+      <GoogleFontLoader
+        fonts={[
+          {
+            font: `${titleFont}`,
+            weights: `${variant}`
+          },
+        ]}
+        subsets={["cyrillic-ext", "greek"]}
+      />
       <FormControl className={classes.formControl}>
         <InputLabel>Title Font</InputLabel>
         <Select value={titleFont} onChange={handleChange}>
@@ -94,10 +101,9 @@ export default function SimpleSelect(props) {
       <Button size="small" variant="contained" onClick={() => randomize()}>
         Random Title Font?
       </Button>
-      <p style={{ fontFamily: `${titleFont}` }}>
+      <h2 style={{ fontFamily: `${titleFont}` }}>
         This will be your title in {titleFont}!
-      </p>
-      <p style={{ fontFamily: 'Roboto Mono, monospaced' }}>This will be in Roboto Mono!</p>
+      </h2>
     </div>
   );
 }

@@ -27,6 +27,9 @@ function Font(){
   return (
     <FontProvider>
     <div style={bodyStyle}>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Limelight&family=Source+Sans+Pro&display=swap');
+</style>
       <Suggestions></Suggestions>
       {/* <h4> Would you like to 
       <button onClick={() => handleChange()} style={buttonStyle}>Start with a suggested pairing?</button></h4> */}
@@ -35,6 +38,8 @@ function Font(){
       {/* <SubTitleComponent buttonStyle={buttonStyle} subtitleFont={suggestion.subtitle}/>
       <BodyComponent buttonStyle={buttonStyle} bodyFont={suggestion.body}/> */}
       <div style={cardStyle}>
+      <p style={{fontfamily: 'Limelight, cursive'}}>This is your title in Lato</p>
+      <p style={{fontfamily: 'Source Sans Pro'}}>This is your title in Limelight</p>
         <h3 className="apply-font-main">
           This is your title, it is very exciting
         </h3>
