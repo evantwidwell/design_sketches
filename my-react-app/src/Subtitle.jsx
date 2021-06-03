@@ -28,6 +28,15 @@ export default function SubTitleComponent() {
   const [subVariant, setSubVariant] = subV;
   const [variants, setVariants] = useState([]);
   
+  const bodyStyle = {
+    display: "flex",
+    margin: "5px",
+    height: "40px",
+    justifyContent: "flex-start",
+    alignItems:"center",
+    padding: "5px",
+    flexDirection: "row"
+  };
 
   useEffect(() => {
     let arr = [];
@@ -66,6 +75,7 @@ export default function SubTitleComponent() {
 
   return (
     <div>
+      <div style={bodyStyle}>
       <FormControl className={classes.formControl}>
         <InputLabel>Subtitle Font</InputLabel>
         <Select value={subTitleFont} onChange={handleChange}>
@@ -91,9 +101,12 @@ export default function SubTitleComponent() {
       <Button size="small" variant="contained" onClick={() => randomize()}>
         Random Subitle Font?
       </Button>
+      </div>
+      <div style={bodyStyle}>
       <p style={{ fontFamily: `${subTitleFont}` }}>
         Your Subtitles and Captions will be in {subTitleFont}, {subVariant}!
       </p>
+    </div>
     </div>
   );
 }

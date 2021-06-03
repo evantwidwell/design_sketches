@@ -28,6 +28,16 @@ export default function SimpleSelect() {
   const [titleVariant, setTitleVariant] = titleV;
   const [variants, setVariants] = useState([]);
   
+  const bodyStyle = {
+    display: "flex",
+    margin: "5px",
+    height: "40px",
+    justifyContent: "flex-start",
+    alignItems:"center",
+    padding: "5px",
+    flexDirection: "row"
+  };
+  
 
   useEffect(() => {
     let arr = [];
@@ -66,6 +76,7 @@ export default function SimpleSelect() {
 
   return (
     <div>
+    <div style={bodyStyle}>
       <FormControl className={classes.formControl}>
         <InputLabel>Title Font</InputLabel>
         <Select value={titleFont} onChange={handleChange}>
@@ -88,12 +99,16 @@ export default function SimpleSelect() {
         </Select>
         <FormHelperText></FormHelperText>
       </FormControl>
-      <Button size="small" variant="contained" onClick={() => randomize()}>
+      <Button size="x-small" variant="contained" onClick={() => randomize()}>
         Random Title Font?
       </Button>
-      <h2 style={{ fontFamily: `${titleFont}` }}>
+      </div>
+      <div style={bodyStyle}>
+      <h2 style={{ fontFamily: `${titleFont}`, fontWeight: `${titleVariant}` }}>
         This will be your title in {titleFont}, {titleVariant}
       </h2>
+      </div>
+    
     </div>
   );
 }

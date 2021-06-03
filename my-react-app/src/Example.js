@@ -26,25 +26,31 @@ const useStyles = makeStyles({
 export default function ExampleComponent() {
   const { body } = useContext(FontContext);
   const [bodyFont] = body;
+  const { bodyV } = useContext(FontContext);
+  const [bodyVariant] = bodyV;
   const { title } = useContext(FontContext);
   const [titleFont] = title;
+  const { titleV } = useContext(FontContext);
+  const [titleVariant] = titleV;
   const { subTitle } = useContext(FontContext);
   const [subTitleFont] = subTitle;
+  const { subV } = useContext(FontContext);
+  const [subVariant] = subV;
   const classes = useStyles();
 
   return (
     <Card variant="outlined" className={classes.root}>
       <CardContent>
         <Typography
-          style={{ fontFamily: `${titleFont}` }}
+          style={{ fontFamily: `${titleFont}`, fontWeight: `${titleVariant}` }}
           variant="h3"
-          gutterBottom
+          
         >
           Titles Will Look Like This
         </Typography>
 
         <Typography
-          style={{ fontFamily: `${subTitleFont}` }}
+          style={{ fontFamily: `${subTitleFont}`, fontWeight: `${subVariant}` }}
           color="textSecondary"
           variant="subtitle1"
         >
@@ -52,7 +58,7 @@ export default function ExampleComponent() {
         </Typography>
 
         <Typography
-          style={{ fontFamily: `${bodyFont}` }}
+          style={{ fontFamily: `${bodyFont}`, fontWeight: `${bodyVariant}` }}
           variant="body2"
           component="p"
           

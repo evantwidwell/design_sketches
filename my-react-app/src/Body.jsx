@@ -27,7 +27,15 @@ export default function BodyComponent() {
   const { bodyV } = useContext(FontContext);
   const [bodyVariant, setBodyVariant] = bodyV;
   const [variants, setVariants] = useState([]);
-  
+  const bodyStyle = {
+    display: "flex",
+    margin: "5px",
+    height: "40px",
+    justifyContent: "flex-start",
+    alignItems:"center",
+    padding: "5px",
+    flexDirection: "row"
+  };
 
   useEffect(() => {
     let arr = [];
@@ -66,6 +74,7 @@ export default function BodyComponent() {
 
   return (
     <div>
+      <div style= {bodyStyle}>
       <FormControl className={classes.formControl}>
         <InputLabel>Body Font</InputLabel>
         <Select value={bodyFont} onChange={handleChange}>
@@ -91,9 +100,12 @@ export default function BodyComponent() {
       <Button size="small" variant="contained" onClick={() => randomize()}>
         Random Body Font?
       </Button>
+      </div>
+      <div style={bodyStyle}>
       <p style={{ fontFamily: `${bodyFont}` }}>
         This will be your body in {bodyFont}, {bodyVariant}!
       </p>
+      </div>
     </div>
   );
 }

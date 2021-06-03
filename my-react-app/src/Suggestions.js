@@ -5,17 +5,30 @@ import Button from "@material-ui/core/Button";
 export default function Suggestions() {
   
   const { title }= useContext(FontContext)
-  const [titleFont, setTitleFont] = title;
+  const [setTitleFont] = title;
   const { titleV } = useContext(FontContext);
-  const [titleVariant, setTitleVariant] = titleV;
+  const [ setTitleVariant] = titleV;
   const { body }= useContext(FontContext)
-  const [bodyFont, setBodyFont] = body;
+  const [ setBodyFont] = body;
   const { bodyV } = useContext(FontContext)
-  const [bodyVariant, setBodyVariant] = bodyV;
+  const [ setBodyVariant] = bodyV;
   const { subTitle } = useContext(FontContext);
-  const [subTitleFont, setSubTitleFont] = subTitle;
+  const [ setSubTitleFont] = subTitle;
   const { subV } = useContext(FontContext);
-  const [subVariant, setSubVariant] = subV;
+  const [ setSubVariant] = subV;
+
+  const bodyStyle = {
+    display: "flex",
+    margin: "10px",
+    height: "40px",
+    justifyContent: "flex-start",
+    alignItems:"center",
+    padding: "5px",
+    flexDirection: "row"
+  };
+  const buttonStyle = {
+    margin: "5px"
+  }
 
   const suggestionsArr = [
     {
@@ -80,9 +93,9 @@ export default function Suggestions() {
     setSubVariant(suggestionsArr[count].subVariant)
   };
   return(
-    <div>
+    <div style={bodyStyle}>
        <h4> Would you like to start with a    
-       <Button size="small" variant="contained" onClick={() => handleChange()}>
+       <Button size="small" variant="contained" style={buttonStyle} onClick={() => handleChange()}>
          Suggested Font Pairing?
       </Button></h4>
       {/* <h3 style={{fontFamily: `${titleFont}`}}>This is your title in {titleFont}, {titleVariant}</h3>
