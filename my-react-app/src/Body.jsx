@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleSelect() {
+export default function BodyComponent() {
   const classes = useStyles();
   const [fonts, setFonts] = useState([]);
-  const { title } = useContext(FontContext);
-  const [titleFont, setTitleFont] = title;
-  const { titleV } = useContext(FontContext);
-  const [titleVariant, setTitleVariant] = titleV;
+  const { body } = useContext(FontContext);
+  const [bodyFont, setBodyFont] = body;
+  const { bodyV } = useContext(FontContext);
+  const [bodyVariant, setBodyVariant] = bodyV;
   const [variants, setVariants] = useState([]);
   
 
@@ -47,28 +47,28 @@ export default function SimpleSelect() {
   const randomize = () => {
     let num = Math.floor(Math.random() * fonts.length);
     let randomFont = fonts[num];
-    setTitleFont(randomFont.family);
+    setBodyFont(randomFont.family);
     setVariants(randomFont.variants);
     let vnum = Math.floor(Math.random() * randomFont.variants.length);
-    setTitleVariant(randomFont.variants[vnum])
+    setBodyVariant(randomFont.variants[vnum])
   };
 
   const handleChange = (event) => {
-    setTitleFont(event.target.value);
+    setBodyFont(event.target.value);
     setVariants(
       fonts.filter((font) => font.family === event.target.value)[0].variants
     );
-    setTitleVariant("regular");
+    setBodyVariant("regular");
   };
   const handleVariant = (event) => {
-    setTitleVariant(event.target.value);
+    setBodyVariant(event.target.value);
   };
 
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel>Title Font</InputLabel>
-        <Select value={titleFont} onChange={handleChange}>
+        <InputLabel>Body Font</InputLabel>
+        <Select value={bodyFont} onChange={handleChange}>
           {fonts.map((font) => (
             <MenuItem key={font.family} value={font.family}>
               {font.family}
@@ -79,7 +79,7 @@ export default function SimpleSelect() {
       </FormControl>
       <FormControl className={classes.formControl}>
         <InputLabel>Variants</InputLabel>
-        <Select value={titleVariant} onChange={handleVariant}>
+        <Select value={bodyVariant} onChange={handleVariant}>
           {variants.map((variant) => (
             <MenuItem key={variant} value={variant}>
               {variant}
@@ -89,11 +89,11 @@ export default function SimpleSelect() {
         <FormHelperText></FormHelperText>
       </FormControl>
       <Button size="small" variant="contained" onClick={() => randomize()}>
-        Random Title Font?
+        Random Body Font?
       </Button>
-      <h2 style={{ fontFamily: `${titleFont}` }}>
-        This will be your title in {titleFont}, {titleVariant}
-      </h2>
+      <p style={{ fontFamily: `${bodyFont}` }}>
+        This will be your body in {bodyFont}, {bodyVariant}!
+      </p>
     </div>
   );
 }
